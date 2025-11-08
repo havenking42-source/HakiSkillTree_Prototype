@@ -11,7 +11,7 @@
       <UInput type="number"/>
     </UFormField>
     <UFormField label="Initial Haki Cap">
-      <Uinput type="number"/>
+      <UInput type="number"/>
     </UFormField>
     <UFormField label="Total Haki Points">
       <UInput type="number"/>
