@@ -1,5 +1,9 @@
 <script lang="ts">
+//import { useCharacterStore } from '~/stores/character';
 
+
+
+//const character = useCharacterStore();
 </script>
 
 <template>

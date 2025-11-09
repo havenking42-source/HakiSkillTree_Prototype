@@ -5,6 +5,17 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
-    '@nuxt/content'
-  ]
+    '@nuxt/content',
+    ['@pinia/nuxt',
+      {
+        autoImports: [
+          'defineStore',
+          'acceptHMRUpdate',
+        ],
+      }
+    ]
+  ],
+  imports: {
+    dirs: ['stores'],
+  }
 })
