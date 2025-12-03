@@ -1,0 +1,8 @@
+[
+  { "id": "base_conq", "name": "Base Conqueror", "type": "shared", "cost": 0, "requires": [], "description": "Awaken your willpower." },
+  { "id": "will_crush", "name": "Will Crush", "type": "offense", "cost": 1, "requires": ["base_conq"],  "positionTag": "UpLeft", "description": "Overwhelm foes with raw dominance." },
+  { "id": "aura_guard", "name": "Aura Guard", "type": "defense", "cost": 1, "requires": ["base_conq"], "positionTag": "UpRight","description": "Repel spiritual attacks." },
+   { "id": "test", "name": "test", "type": "shared", "cost": 2, "positionTag": "between", "requires": ["will_crush", "aura_guard"], "description": "Command attention with mere presence." },
+  { "id": "king_presence", "name": "King's Presence", "type": "shared", "cost": 2, "positionTag": "between", "requires": ["will_crush", "aura_guard"], "description": "Command attention with mere presence." },
+  { "id": "supreme_command", "name": "Supreme Command", "type": "shared", "cost": 3,  "requires": ["king_presence"], "description": "Dominate weaker wills entirely." }
+]

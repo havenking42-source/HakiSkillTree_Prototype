@@ -1,0 +1,366 @@
+/* --- General page style --- */
+body {
+  background: #0a0a0a;
+  color: #f0f0f0;
+  font-family: 'Trebuchet MS', sans-serif;
+  margin: 0;
+  overflow: hidden; /* prevent scrollbars since we’ll pan/zoom instead */
+}
+
+.page-title {
+  text-align: center;
+  font-size: 1.8em;
+  margin-top: 0.8em;
+  color: gold;
+}
+
+/* Title panel on the right with rounded background and stats toggle */
+.title-panel {
+  position: absolute;
+  right: 24px;
+  top: 8px;
+  z-index: 350;
+}
+.title-inner {
+  display: flex;
+  flex-direction: column; /* stack title and button */
+  align-items: flex-end;  /* right align contents */
+  gap: 6px;
+  background: rgba(20,20,20,0.85);
+  padding: 8px 12px;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.title-inner .page-title { margin: 0; font-size: 1.55em; text-align: right; }
+.stats-toggle {
+  background: #222;
+  color: gold;
+  border: 1px solid #444;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Character stats popup (resembles hover desc) */
+.char-stats-box {
+  margin-top: 8px;
+  background: rgba(0,0,0,0.95);
+  border: 1px solid gold;
+  padding: 10px;
+  border-radius: 6px;
+  width: 260px;
+  color: #fff;
+}
+.char-stats-box h3 { margin: 0 0 8px 0; font-size: 1em; color: gold; }
+.char-stats-box .stat-row { margin: 6px 0; }
+.char-stats-box .stat-label { color: #ccc; }
+.char-stats-box .stat-value { color: #fff; font-weight: 600; }
+
+.char-stats-box .dice-sub { margin-left: 8px; color: #ddd; font-size: 0.95em; }
+.char-stats-box .dice-sub div { margin: 4px 0; padding-left: 8px; }
+
+/* persistent hover box that appears on click */
+.persist-desc-box {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  z-index: 500;
+  background: rgba(0,0,0,0.98);
+  border: 2px solid transparent; /* set by JS per skill type */
+  padding: 10px 12px 12px 12px;
+  border-radius: 8px;
+  color: #fff;
+  width: 340px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+}
+.persist-desc-box .persist-close {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(180,0,0,0.95);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+.persist-desc-box .persist-content { margin-top: 6px; }
+.persist-desc-box { cursor: grab; }
+.persist-desc-box.dragging { cursor: grabbing; opacity: 0.98; }
+
+/* Custom alert modal */
+.app-alert { position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 900; display: flex; align-items: center; justify-content: center; }
+.app-alert-backdrop { position: absolute; left:0; top:0; right:0; bottom:0; background: rgba(0,0,0,0.7); }
+.app-alert-box { position: relative; background: rgba(12,12,12,0.98); border: 2px solid gold; padding: 18px; border-radius: 10px; width: 360px; max-width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.6); color: #fff; z-index: 910; }
+.app-alert-content { margin-bottom: 12px; }
+.app-alert-topclose { position: absolute; right: 8px; top: 8px; width: 28px; height: 28px; border-radius: 50%; background: rgba(180,0,0,0.95); color: white; border: none; font-weight: 700; cursor: pointer; }
+.app-alert-actions { display:flex; gap:12px; justify-content:center; }
+.app-alert-actions button { background: #222; color: gold; border: 1px solid #666; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.app-alert-actions button:hover { background: #333; }
+
+/* --- Layout for all trees --- */
+.tree-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  height: 80vh;
+  margin: 0 auto;
+  width: 95vw;
+  position: relative;
+  transform-origin: 50% 50%;
+}
+
+/* --- Individual trees --- */
+.tree {
+  width: 32%;
+  height: 100%;
+  position: relative;
+  background: transparent;
+}
+
+.tree h2 {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.2em;
+  color: gold;
+  /* stronger drop shadow for better legibility */
+  text-shadow: 0 3px 8px rgba(0,0,0,0.8), 0 1px 2px rgba(0,0,0,0.6);
+}
+
+/* --- Tree canvas --- */
+.tree-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* --- Nodes --- */
+.skill {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: #222;
+  border: 3px solid #777;
+  color: #fff;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 0.8em;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.skill.offense { border-color: red; }
+.skill.defense { border-color: royalblue; }
+.skill.shared { border-color: rgb(167, 10, 167); }
+.skill.special { border-color: #401b63; }
+
+.skill.available { box-shadow: 0 0 14px yellow; }
+.skill.selected {
+  background: linear-gradient(180deg, #5f5904, #92941e);
+  border-color: rgb(223, 226, 14);
+  box-shadow: 0 0 5px rgb(238, 255, 0);
+}
+
+/* --- Connectors --- */
+.connector {
+  position: absolute;
+  background: #444;
+  height: 4px;
+  transform-origin: left center;
+  z-index: 1;
+  transition: background 0.3s, height 0.3s;
+}
+
+.connector.active {
+  background: rgb(204, 224, 17);
+  height: 5px;
+}
+
+/* --- Controls --- */
+.controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.986);
+  padding: 6px 0; /* thinner */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.4);
+  z-index: 300;
+  /* responsive font-size that scales down on small viewports */
+  font-size: clamp(12px, 1.2vw, 14px);
+}
+
+.controls-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 14px;
+  gap: 12px;
+  height: 40px; /* make overall bar thinner */
+  flex-wrap: nowrap; /* keep everything on a single line */
+  overflow: hidden; /* hide any overflow when zoomed */
+  white-space: nowrap; /* prevent labels wrapping */
+}
+
+.controls-left, .controls-center, .controls-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto; /* allow groups to grow/shrink */
+  min-width: 0; /* allow contents to compress */
+}
+
+.controls-center {
+  justify-content: center;
+  gap: 12px;
+  flex: 0 0 auto; /* center area maintains intrinsic width */
+}
+
+.controls input[type="number"], .controls input[type="text"] {
+  width: 60px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  border: none;
+  background: #222;
+  color: white;
+  box-sizing: border-box;
+  flex: 1 1 auto; /* allow inputs to grow/shrink */
+}
+
+/* allow number inputs to shrink on very narrow viewports */
+.controls input[type="number"] { min-width: 40px; }
+
+/* make character name input flexible so it ends right before center controls */
+.controls-left { flex: 1 1 220px; /* allow the left group to take available space */ }
+.controls-left label { margin-right: 8px; flex: 0 0 auto; }
+.controls-left input[type="text"] { flex: 1 1 auto; min-width: 80px; max-width: 100%; width: auto; }
+
+.remaining-wrap {
+  margin-left: 8px;
+  color: gold;
+}
+
+.controls input, .controls button {
+  margin: 0 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: none;
+  background: #222;
+  color: white;
+}
+
+.controls button {
+  cursor: pointer;
+  background: #333;
+  border: 1px solid #777;
+}
+
+.controls button:hover {
+  background: #444;
+}
+
+/* --- Description box --- */
+#desc-box {
+  position: fixed;
+  bottom: auto;
+  left: auto;
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid gold;
+  padding: 10px;
+  border-radius: 6px;
+  width: 300px;
+  max-width: 420px;
+  max-height: 260px; /* constrain height to avoid huge empty space */
+  overflow: auto;
+  text-align: left;
+  display: none;
+  z-index: 650;
+  box-sizing: border-box;
+  contain: layout paint; /* isolate from document layout */
+}
+
+.desc-pin {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  background: transparent;
+  border: none;
+  color: gold;
+  cursor: pointer;
+}
+.desc-inner { padding-left: 28px; }
+
+/* --- Zoom buttons --- */
+#zoom-controls {
+  position: fixed;
+  /* raise the zoom controls above the bottom controls bar */
+  bottom: 70px;
+  right: 4px; /* move closer to the edge */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 400;
+}
+
+#zoom-controls .zoom-slider-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.zoom-slider {
+  width: 10px;
+  height: 110px;
+  background: rgba(60,60,60,0.9);
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.6);
+}
+.zoom-thumb {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  background: gold;
+  border-radius: 50%;
+  cursor: ns-resize;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+.zoom-buttons { display:flex; gap:8px; justify-content:center; }
+.zoom-btn {
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(40, 40, 40, 0.9);
+  color: gold;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+.zoom-btn:hover { background: rgba(70,70,70,0.9); transform: scale(1.04); }
+
+/* Pool chooser modal (reuses modal patterns) */
+.modal { position: fixed; left: 0; top: 0; right: 0; bottom: 0; display:flex; align-items:center; justify-content:center; z-index: 920; }
+.modal .modal-content { background: rgba(12,12,12,0.98); border: 2px solid gold; padding: 12px; border-radius: 8px; width: 280px; box-shadow: 0 8px 24px rgba(0,0,0,0.6); color: #fff; text-align: center; }
+.modal .modal-content.small { width: 220px; }
+.modal .modal-close { position: absolute; right: 10px; top: 8px; border: none; background: rgba(180,0,0,0.95); color: white; width: 28px; height: 28px; border-radius: 50%; cursor:pointer; }
+.modal-body { margin: 10px 0; display:flex; flex-direction:column; gap:8px; align-items:center; }
+.modal-body label { color: #ddd; font-size: 0.95em; }
+.modal-body input[type=number] { width: 80px; padding: 6px 8px; border-radius: 6px; border: none; background: #222; color: white; text-align: center; }
+.modal-actions { display:flex; justify-content:center; gap:8px; margin-top: 8px; }
+.btn { background: #222; color: gold; border: 1px solid #555; padding: 6px 10px; border-radius: 6px; cursor:pointer; }
+.btn.primary { background: linear-gradient(90deg,#006600,#00aa00); color: white; border: none; }
+
