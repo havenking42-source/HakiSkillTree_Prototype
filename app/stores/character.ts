@@ -16,7 +16,6 @@ export const useCharacterStore = defineStore('character', {
       observationSkils: [] as string[],
       conquerorSkills: [] as string[],
     }
-
   },
 
   actions: {
