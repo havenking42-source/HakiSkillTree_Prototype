@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes:
+    garden --default,
+    coffee --prefersdark,
+    nord,
+    night,
+    fantasy,
+    forest;
+}
