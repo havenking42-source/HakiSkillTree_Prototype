@@ -28,9 +28,13 @@
   "devDependencies": {
     "@iconify-json/tabler": "^1.2.23"
   },
-  "pnpm":{
+  "pnpm": {
     "onlyBuiltDependencies": [
-      "better-sqlite3"
+      "@parcel/watcher",
+      "better-sqlite3",
+      "esbuild",
+      "unrs-resolver",
+      "vue-demi"
     ]
   }
 }
