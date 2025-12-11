@@ -12,7 +12,8 @@ import CharacterControls from '../components/character/controls.vue';
           <!-- Sidebar toggle icon -->
           <Icon name="tabler:layout-sidebar-left-expand" size="16" />
         </label>
-          <CharacterControls/>
+        <CharacterControls/>
+        <CharacterStats/>
       </nav>
       <!-- Page content here -->
       <div class="p-4">Page Content</div>

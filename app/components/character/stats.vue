@@ -4,8 +4,8 @@
 </script>
 
 <template>
-  <USlideover :dismissible="false" :modal="false" title="Character Stats">
-    <UButton label="Character Stats" color="neutral" variant="subtle" />
+  <!-- <USlideover :dismissible="false" :modal="false" title="Character Stats">
+    <UButton label="Character Stats" class="btn btn-primary" variant="subtle" />
 
     <template #body>
       <UCard>
@@ -14,7 +14,7 @@
         </template>
 
         <UContainer v-model="character.armamentHakiPool">Armament Haki Pool: {{ character.armamentHakiPool }}</UContainer>
-        <UContainer v-model="character.armamentHakiCapacity">Armament Haki Pool: {{ character.armamentHakiCapacity }}</UContainer>
+        <UContainer v-model="character.armamentHakiCapacity">Armament Haki Capacity: {{ character.armamentHakiCapacity }}</UContainer>
         <UContainer>Armament Haki Dice Type:
           <UContainer v-model="character.armamentOffenseDice">
             While Attacking: {{ character.armamentOffenseDice }}
@@ -34,5 +34,50 @@
         </UContainer>
       </UCard>
     </template>
-  </USlideover>
+  </USlideover> -->
+  <div>
+    <button aria-label="Character Stats" class="btn btn-primary" onclick="character_modal.showModal()">Character Stats</button>
+    <dialog id="character_modal" class="modal">
+      <div class="modal-box">  
+        
+        <h3> Stats for {{ character.characterName }}</h3> 
+        
+
+        <div >Armament Haki Pool: {{ character.armamentHakiPool }}</div>
+        <div >Armament Haki Capacity: {{ character.armamentHakiCapacity }}</div>
+
+        <div>Armament Haki Dice Type:
+          <div >
+            While Attacking: {{ character.armamentOffenseDice }}
+          </div>
+          <div >
+            While Defending: {{ character.armamentDefenseDice }}
+          </div>
+        </div>
+        
+        <div> Observation Haki:
+          <div >
+            Focus Modifier: {{ character.observationFocusModifier }}
+          </div>
+          <div >
+            Observation Range: {{ character.observationRange }}
+          </div>
+        </div>
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
+    
+      
+    
+  </div>
 </template>
+
+<style>
+  dialog.modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.0);
+  }
+</style>
