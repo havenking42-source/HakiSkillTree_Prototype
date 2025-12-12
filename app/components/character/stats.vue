@@ -36,9 +36,9 @@
     </template>
   </USlideover> -->
   <div>
-    <button aria-label="Character Stats" class="btn btn-primary" onclick="character_modal.showModal()">Character Stats</button>
-    <dialog id="character_modal" class="modal">
-      <div class="modal-box">  
+    <button aria-label="Character Stats" class="btn btn-primary" onclick="character_modal.show()">Character Stats</button>
+    <dialog id="character_modal">
+      <div>  
         
         <h3> Stats for {{ character.characterName }}</h3> 
         
@@ -64,9 +64,8 @@
           </div>
         </div>
         <div class="modal-action">
-          <form method="dialog">
-            <button class="btn">Close</button>
-          </form>
+          <!-- Button to close the modal -->
+          <button class="btn" onclick="character_modal.close()">Close</button>
         </div>
       </div>
     </dialog>

@@ -11,19 +11,14 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
   css: ["./app/tailwind.css"],
-  modules: [
-    '@nuxt/eslint',
-    '@nuxt/ui',
-    '@nuxt/content',
-    ['@pinia/nuxt',
-      {
-        autoImports: [
-          'defineStore',
-          'acceptHMRUpdate',
-        ],
-      }
-    ]
-  ],
+  modules: ['@nuxt/eslint', '@nuxt/content', ['@pinia/nuxt',
+    {
+      autoImports: [
+        'defineStore',
+        'acceptHMRUpdate',
+      ],
+    }
+  ], '@nuxt/icon'],
   imports: {
     dirs: ['stores'],
   }

@@ -2,7 +2,8 @@
 @plugin "daisyui" {
   themes:
     garden --default,
-    coffee --prefersdark,
+    coffee,
+    abyss --prefersdark,
     nord,
     night,
     fantasy,

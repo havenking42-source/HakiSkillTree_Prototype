@@ -7,12 +7,12 @@ const character = useCharacterStore();
 
 <template>
   <div class="join">
-    Character Name: <UInput v-model="character.characterName" placeholder="Enter Character Name"/>
+    Character Name: <input v-model="character.characterName" placeholder="Enter Character Name" class="input input-ghost input-sm w-1/6"/>
     
-    Initial Armament Haki Pool: <UInput v-model="character.armamentHakiPool" type="number"/>
+    Initial Armament Haki Pool: <input v-model="character.armamentHakiPool" type="number" class="input input-ghost input-sm w-1/16"/>
     
-    Initial Armament Haki Cap: <UInput v-model="character.armamentHakiCapacity" type="number"/>
+    Initial Armament Haki Cap: <input v-model="character.armamentHakiCapacity" type="number" class="input input-ghost input-sm w-1/16"/>
     
-    Total Haki Points: <UInput v-model="character.totalHakiPoints" type="number"/>
+    Total Haki Points: <input v-model="character.totalHakiPoints" type="number" class="input input-ghost input-sm w-1/16"/>
   </div>
 </template>
